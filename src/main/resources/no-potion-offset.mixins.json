@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "me.shedaniel.nopotionoffset.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "client": [
+    "MixinAbstractInventoryScreen"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
