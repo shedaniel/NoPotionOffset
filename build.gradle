@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.2.6-SNAPSHOT'
+	id 'fabric-loom' version '0.4.13'
 	id 'maven-publish'
 	id 'net.minecrell.licenser' version '0.4.1'
 }
@@ -7,14 +7,8 @@ plugins {
 sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 
 archivesBaseName = project.archives_base_name
-version = (project.mod_version as String).contains("unstable") ? (project.mod_version + "." + buildTime()) : project.mod_version
+version = project.mod_version
 group = project.maven_group
-
-static def buildTime() {
-    def df = new java.text.SimpleDateFormat("yyyyMMddHHmm")
-    df.setTimeZone(TimeZone.getTimeZone("UTC"))
-    return df.format(new Date())
-}
 
 license {
     header rootProject.file('HEADER')
@@ -24,10 +18,14 @@ license {
 minecraft {
 }
 
+repositories {
+    maven { url "https://dl.bintray.com/shedaniel/legacy-yarn-updated" }
+}
+
 dependencies {
 	//to change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+	mappings "me.shedaniel:legacy-yarn:${project.yarn_mappings}:v2"
 	modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
@@ -43,14 +41,11 @@ dependencies {
     }
 	modCompileOnly ("me.shedaniel:RoughlyEnoughItems:${project.roughlyenoughitems}")
 	modRuntime ("me.shedaniel:RoughlyEnoughItems:${project.roughlyenoughitems}")
-	modRuntime ("me.shedaniel.cloth:config-2:2.9.3") {
+	modRuntime ("me.shedaniel.cloth:config-2:4.1.0-unstable") {
         force(true)
     }
     compileOnly "com.google.code.findbugs:jsr305:3.0.2"
     compileOnly 'org.jetbrains:annotations:15.0'
-    modRuntime("com.lettuce.fudge:notenoughcrashes:${project.notenoughcrashes_version}") {
-        transitive = false
-    }
 }
 
 processResources {
